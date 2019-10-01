@@ -1,0 +1,14 @@
+<% include partials/header %>
+<h1><%= campgroundz.name%></h1>
+
+<img src="<%= campgroundz.image %>">
+
+<p><%= campgroundz.description%></p>
+
+<% campgroundz.comments.forEach(function(comment){ %>
+    <p>
+        <strong><%= comment.author %></strong> - <%= comment.text %>
+    </p>
+<% }); %>
+
+<% include partials/footer %>

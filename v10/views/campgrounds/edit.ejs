@@ -1,0 +1,36 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <div class="row">
+        <h1 style="text-align: center">Edit <%= campground.name %></h1>
+
+        <!-- make form centered with only 30% -->
+        <div style="width: 30%; margin: 25px auto;">
+            <!-- NOTE _method=PUT. this changes the post request into a put, via method-override package -->
+            <form  action="/campgrounds/<%= campground._id %>/?_method=PUT" method="POST">
+                <!-- give each form some spacing by using form-group class -->
+                <div class="form-group">
+                    <!-- use form-control class to make each input it's own line -->
+                    <input class="form-control" type="text" name="campground[name]" value="<%= campground.name %>">
+                </div>
+                <div class="form-group">
+                    <!-- use form-control class to make each input it's own line -->
+                    <input class="form-control" type="text" name="campground[image]" value="<%= campground.image %>">
+                </div>
+                <div class="form-group">
+                    <!-- use form-control class to make each input it's own line -->
+                    <input class="form-control" type="text" name="campground[description]" value="<%= campground.description %>">
+                </div>
+
+                <!-- btn-block makes the button take up the entire line -->
+                <button class="btn btn-lg btn-default btn-block btn-primary">Submit!</button>
+            </form>
+
+            <a href="/campgrounds">Go back</a>
+        </div>
+
+    </div>
+
+</div>
+
+<% include ../partials/footer %>
