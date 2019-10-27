@@ -1,0 +1,55 @@
+<% include ../partials/header %>
+
+<!-- partial container class in header -->
+    <header class="jumbotron">
+
+        <!-- add another container for spacing within the jumbotron -->
+        <!-- helps give space when resizing window -->
+        <div class="container">
+            <h1><span class="glyphicon glyphicon-tent"></span> Welcome To YelpCamp!</h1>
+            <p>View our hand-picked campgrounds from all over the world</p>
+            <!-- href placed inside paragraph to give a nice spacing -->
+            <p>
+                <!-- btn class from bootstrap to make button look nicer -->
+                <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add new Campground</a>
+            </p>
+
+            <p>
+             <form action="/campgrounds" method="GET" class="form-inline" id="campground-search">
+               <div class="form-group">
+                 <input type="text" name="search" placeholder="Campground search..." class="form-control">
+               </div>
+             </form>
+            </p>
+        </div>
+
+    </header>
+
+    <!-- for the row class, adding style=display ... : flex... will make the grid adapt to the heights and lengths -->
+    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+        <% campgroundsEJS.forEach(function(campground) {  %>
+            <!-- image gets bigger when screen size is larger -->
+            <!-- note value represents number of units the image takes up for each window size -->
+            <div class="col-md-3 col-sm-6 col-lg-2">
+                <!-- bootstrap class that makes a grid item -->
+                <!-- if thumbnail isn't used, pics will overlap -->
+                <div class="thumbnail">
+                    <img src="<%= campground.image %>">
+                </div>
+
+                <div class="caption">
+                    <h4><%= campground.name %></h4>
+                </div>
+
+                <p>
+                    <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">More Info</a>
+                </p>
+
+            </div>
+
+        <% }); %>
+    </div>
+
+
+
+<% include ../partials/footer %>
