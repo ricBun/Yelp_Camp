@@ -9,27 +9,28 @@
                 <li class="list-group-item">Info 2</li>
                 <li class="list-group-item">Info 3</li>
             </div>
+            <div id="map"></div>
         </div>
         <div class="col-md-9">
             <!-- create thumbnail of image-->
             <div class="thumbnail">
-                <img class="img-responsive" src="<%= campgroundz.image %>">
+                <img class="img-responsive" src="<%= campground.image %>">
 
                 <!-- all other info with respect to image -->
                 <div class="caption">
-                    <h4 class="pull-right">$<%= campgroundz.cost %>/night</h4>
-                    <h4><a><%= campgroundz.name%></a></h4>
-                    <p><%= campgroundz.description%></p>
+                    <h4 class="pull-right">$<%= campground.cost %>/night</h4>
+                    <h4><a><%= campground.name%></a></h4>
+                    <p><%= campground.description%></p>
                     <p>
-                       <em>Submitted By: <%= campgroundz.author.username %></em>
+                       <em>Submitted By: <%= campground.author.username %></em>
                     </p>
 
                     <!-- check if current user is matching id of post -->
-                    <% if(currentUser && campgroundz.author.id.equals(currentUser._id)){ %>
-                        <a class="btn btn-warning" href="/campgrounds/<%=campgroundz._id %>/edit">Edit</a>
+                    <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
+                        <a class="btn btn-warning" href="/campgrounds/<%=campground._id %>/edit">Edit</a>
 
                         <!-- delete form -->
-                        <form class="delete-form" action="/campgrounds/<%= campgroundz._id%>?_method=DELETE" method="post">
+                        <form class="delete-form" action="/campgrounds/<%= campground._id%>?_method=DELETE" method="post">
                             <button class="btn btn-danger">Delete</button>
                         </form>
                     <% } %>
@@ -41,7 +42,7 @@
             <div class="well">
                 <div class="text-right">
                     <p>
-                        <a class="btn btn-primary" href="/campgrounds/<%= campgroundz._id %>/comments/new">Add New Comment</a>
+                        <a class="btn btn-primary" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
                     </p>
                 </div>
 
@@ -49,7 +50,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <% campgroundz.comments.forEach(function(comment){ %>
+                        <% campground.comments.forEach(function(comment){ %>
 
                             <p><strong><%= comment.author.username %></strong></p>
                             <span class="pull-right">10 days ago</span>
@@ -62,12 +63,12 @@
                             <!-- check if current user is matching id of post -->
                             <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
                                 <a class="btn btn-xs btn-warning"
-                                    href="/campgrounds/<%= campgroundz._id%>/comments/<%= comment._id %>/edit">
+                                    href="/campgrounds/<%= campground._id%>/comments/<%= comment._id %>/edit">
                                     Edit
                                 </a>
 
                                 <!-- delete form -->
-                                <form class="delete-form" action="/campgrounds/<%= campgroundz._id%>/comments/<%= comment._id %>?_method=DELETE" method="post">
+                                <form class="delete-form" action="/campgrounds/<%= campground._id%>/comments/<%= comment._id %>?_method=DELETE" method="post">
                                     <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                                 </form>
                             <% } %>
@@ -80,4 +81,33 @@
         </div>
     </div>
 
+
+    <script>
+      function initMap() {
+        var lat = <%= campground.lat %>;
+        var lng = <%= campground.lng %>;
+        var center = {lat: lat, lng: lng };
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 8,
+            center: center,
+            scrollwheel: false
+        });
+        var contentString = `
+          <strong><%= campground.name %><br />
+          <%= campground.location %></strong>
+          <p><%= campground.description %></p>
+        `
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+        var marker = new google.maps.Marker({
+            position: center,
+            map: map
+        });
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+      }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9Q6dbnT_CFnAeay7USwVVQbIqiKDvri4&callback=initMap"></script>
 <% include ../partials/footer %>

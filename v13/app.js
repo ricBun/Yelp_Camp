@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 var express          = require("express"),
       app                = express(),
       bodyParser    = require("body-parser"),
@@ -27,7 +29,8 @@ var campgroundRoutes = require("./routes/campgrounds"),
 
 //trying to use a containerized mongodb DB
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost:27017/yelp_camp", {
+mongoose.connect(`mongodb://${process.env.DB_URL}`, {
+// mongoose.connect("mongodb://localhost:27017/yelp_camp", {
     useNewUrlParser: true,
     useUnifiedTopology: true
     // user: "username",
