@@ -43,9 +43,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     var image = req.body.image;
     var description = req.body.description;
     var cost = req.body.cost;
-    var lat = data[0].latitude;
-    var lng = data[0].longitude;
-    var location = data[0].formattedAddress;
+
 
     var author = {
         id: req.user._id,
@@ -57,6 +55,9 @@ router.post("/", middleware.isLoggedIn, function(req, res){
             return res.redirect('back');
         }
 
+        var lat = data[0].latitude;
+        var lng = data[0].longitude;
+        var location = data[0].formattedAddress;
         var newCampground = {name: name, image: image, description: description, cost:cost,  author:author, location: location, lat: lat, lng: lng};
         // Create a new campground and save to DB
         Campground.create(newCampground, function(err, newlyCreated){
@@ -69,19 +70,6 @@ router.post("/", middleware.isLoggedIn, function(req, res){
             }
         });
   });
-    // var newCampground = {name: name, image: image, cost: cost, description: description, author:author};
-    // // create a new campground and save to DB
-    // Campground.create(
-    //     newCampground, function(err, campground) {
-    //         if (err) {
-    //             console.log("ERROR adding campground!");
-    //         } else {
-    //             console.log("Added!");
-    //             console.log(campground);
-    //              res.redirect("/campgrounds");
-    //         }
-    //     }
-    // );
 });
 
 // SHOW - shows more info about campground
@@ -97,7 +85,7 @@ router.get("/:id", function(req, res){
             res.redirect("back");
         } else {
             // render show template with that campground
-            res.render("campgrounds/show", {campground: foundCampground});
+            res.render("campgrounds/show", {campground: foundCampground, mapAPI: process.env.MAPS_API_KEY});
         }
     });
 });
@@ -117,9 +105,9 @@ router.put("/:id", function(req, res){
       req.flash('error', 'Invalid address');
       return res.redirect('back');
     }
-    req.body.campground.lat = data[0].latitude;
-    req.body.campground.lng = data[0].longitude;
-    req.body.campground.location = data[0].formattedAddress;
+    req.body.lat = data[0].latitude;
+    req.body.lng = data[0].longitude;
+    req.body.location = data[0].formattedAddress;
 
       Campground.findByIdAndUpdate(req.params.id, req.body, function(err, campground){
             if(err){
@@ -131,16 +119,6 @@ router.put("/:id", function(req, res){
             }
         });
     });
-    // // find and update the correct campground
-    // var newData = {name: req.body.name, image: req.body.image, cost: req.body.cost, description: req.body.description};
-    // Campground.findByIdAndUpdate(req.params.id, {$set: newData}, function(err, updatedCampground){
-    //     if(err){
-    //         res.redirect("/campgrounds");
-    //     } else {
-    //         res.redirect("/campgrounds/" + req.params.id);
-    //     }
-    // })
-    // //  redirect somewhere
 });
 
 // DESTROY - campground route

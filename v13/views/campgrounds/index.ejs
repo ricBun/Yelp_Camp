@@ -26,29 +26,32 @@
     </header>
 
     <!-- for the row class, adding style=display ... : flex... will make the grid adapt to the heights and lengths -->
-    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
-        <% campgroundsEJS.forEach(function(campground) {  %>
-            <!-- image gets bigger when screen size is larger -->
-            <!-- note value represents number of units the image takes up for each window size -->
-            <div class="col-md-3 col-sm-6 col-lg-2">
-                <!-- bootstrap class that makes a grid item -->
-                <!-- if thumbnail isn't used, pics will overlap -->
-                <div class="thumbnail">
-                    <img src="<%= campground.image %>">
+    <div class="container">
+        <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+            <% campgroundsEJS.forEach(function(campground) {  %>
+                <!-- image gets bigger when screen size is larger -->
+                <!-- note value represents number of units the image takes up for each window size -->
+                <div class="col-md-3 col-sm-6 col-lg-2">
+                    <!-- bootstrap class that makes a grid item -->
+                    <!-- if thumbnail isn't used, pics will overlap -->
+                    <div class="thumbnail">
+                        <img src="<%= campground.image %>">
+                    </div>
+
+                    <div class="caption">
+                        <h4><%= campground.name %></h4>
+                    </div>
+
+                    <p>
+                        <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">More Info</a>
+                    </p>
+
                 </div>
 
-                <div class="caption">
-                    <h4><%= campground.name %></h4>
-                </div>
-
-                <p>
-                    <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">More Info</a>
-                </p>
-
-            </div>
-
-        <% }); %>
+            <% }); %>
+        </div>
     </div>
+
 
 
 
