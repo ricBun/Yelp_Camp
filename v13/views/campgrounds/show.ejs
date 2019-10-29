@@ -22,9 +22,8 @@
                     <h4><a><%= campground.name%></a></h4>
                     <p><%= campground.description%></p>
                     <p>
-                       <em>Submitted By: <%= campground.author.username %></em>
+                        <em>Submitted by: <%= campground.author.username %>, <%= moment(campground.createdAt).fromNow() %></em>
                     </p>
-
                     <!-- check if current user is matching id of post -->
                     <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
                         <a class="btn btn-warning" href="/campgrounds/<%=campground._id %>/edit">Edit</a>
@@ -53,7 +52,7 @@
                         <% campground.comments.forEach(function(comment){ %>
 
                             <p><strong><%= comment.author.username %></strong></p>
-                            <span class="pull-right">10 days ago</span>
+                            <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
 
                             <p>
                                 <em><%= comment.text %></em>

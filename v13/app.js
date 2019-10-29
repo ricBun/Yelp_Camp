@@ -1,40 +1,31 @@
 require('dotenv').config();
 
-var express          = require("express"),
-      app                = express(),
-      bodyParser    = require("body-parser"),
-      mongoose     = require("mongoose"),
-      passport        = require("passport"),
-      flash             = require("connect-flash"),
-      methodOverride = require("method-override"),
-      LocalStrategy = require("passport-local"),
-      Campground = require("./models/campground"),
-      Comment      = require("./models/comment"),
-      User              = require("./models/user"),
-      seedDB        = require("./seeds.js");
+var express               = require("express"),
+    app                   = express(),
+    bodyParser            = require("body-parser"),
+    mongoose              = require("mongoose"),
+    passport              = require("passport"),
+    flash                 = require("connect-flash"),
+    methodOverride        = require("method-override"),
+    LocalStrategy         = require("passport-local"),
+    Campground            = require("./models/campground"),
+    Comment               = require("./models/comment"),
+    User                  = require("./models/user"),
+    seedDB                = require("./seeds.js");
 
 // requiring routes
-var campgroundRoutes = require("./routes/campgrounds"),
-      commentRoutes = require("./routes/comments"),
-      authRoutes = require("./routes/index")
+var campgroundRoutes    = require("./routes/campgrounds"),
+    commentRoutes       = require("./routes/comments"),
+    authRoutes          = require("./routes/index")
 
 // ==================
 // CONFIG
 // ==================
 
-// used own environment variable OUTSIDE code
-// use export DATABASEURL=""
-// unomment this code to revert back to v12!
-// mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, useUnifiedTopology: true}) ;
-
-//trying to use a containerized mongodb DB
 mongoose.Promise = global.Promise;
 mongoose.connect(`mongodb://${process.env.DB_URL}`, {
-// mongoose.connect("mongodb://localhost:27017/yelp_camp", {
     useNewUrlParser: true,
     useUnifiedTopology: true
-    // user: "username",
-    // pass: "password"
 }).then(() => {
     console.log('successfully connected to the database');
 }).catch(err => {
@@ -60,6 +51,9 @@ app.use(methodOverride("_method"));
 // NOTE: flash MUST be used  BEFORE PASSPORT CONFIG
 app.use(flash());
 
+
+// Time stamp variable
+app.locals.moment     = require('moment');
 // ==================
 // PASSPORT CONFIGURATION
 // ==================
