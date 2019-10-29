@@ -58,7 +58,7 @@ app.locals.moment     = require('moment');
 // PASSPORT CONFIGURATION
 // ==================
 app.use(require("express-session")({
-    secret: "Once Again once again",
+    secret: `${process.env.PASSPORT_SECRET}`,
     resave: false,
     saveUninitialized: false
 }));
