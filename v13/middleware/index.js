@@ -10,19 +10,19 @@ middlewareObj.checkCampgroundOwnership = function(req, res, next){
             // does user own campground?
             if(err || !foundCampground){
                 req.flash("error", "Campground not found");
-                res.redirect("back");
+                res.redirect('/campgrounds');
             } else {
-                if(foundCampground.author.id.equals(req.user._id)){
+                if(foundCampground.author.id.equals(req.user._id) || req.user.isAdmin){
                     next();
                 } else {
-                    req.redirect("You don't have permission to do that.");
-                    res.redirect("back");
+                    req.flash('error', 'You don\'t have permission to do that!');
+                    res.redirect('/campgrounds/' + req.params.id);
                 }
             }
         });
     } else {
         req.flash("error", "You need to be logged in to do that!");
-        res.redirect("back");
+        res.redirect('/campgrounds/' + req.params.id);
     }
 }
 
@@ -35,18 +35,17 @@ middlewareObj.checkCommentOwnership = function(req, res, next){
                 req.flash("error", "Comment not found");
                 res.redirect("back")
             } else {
-                console.log(foundComment);
-                if(foundComment.author.id.equals(req.user._id)){
+                if(foundComment.author.id.equals(req.user._id) || req.user.isAdmin){
                     next();
                 } else {
-                    req.redirect("You don't have permission to do that.");
-                    res.redirect("back");
+                    req.flash('error', 'You don\'t have permission to do that!');
+                    res.redirect('/campgrounds/' + req.params.id);
                 }
             }
         });
     } else {
         req.flash("error", "You need to be logged in to do that!");
-        res.redirect("back");
+        res.redirect('/campgrounds/' + req.params.id);
     }
 }
 
@@ -54,7 +53,7 @@ middlewareObj.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
-    req.flash("error", "You need to be logged in to do that!");
+    req.flash("error", "You must be signed in to do that!");
     res.redirect("/login");
 }
 

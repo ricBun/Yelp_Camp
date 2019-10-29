@@ -25,7 +25,7 @@
                         <em>Submitted by: <%= campground.author.username %>, <%= moment(campground.createdAt).fromNow() %></em>
                     </p>
                     <!-- check if current user is matching id of post -->
-                    <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
+                    <% if(currentUser && (campground.author.id.equals(currentUser._id) || currentUser.isAdmin )){ %>
                         <a class="btn btn-warning" href="/campgrounds/<%=campground._id %>/edit">Edit</a>
 
                         <!-- delete form -->
@@ -60,16 +60,19 @@
 
 
                             <!-- check if current user is matching id of post -->
-                            <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
-                                <a class="btn btn-xs btn-warning"
-                                    href="/campgrounds/<%= campground._id%>/comments/<%= comment._id %>/edit">
-                                    Edit
-                                </a>
+                            <% if(currentUser && (comment.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
+                                <div class="pull-right">
+                                    <a class="btn btn-xs btn-warning"
+                                        href="/campgrounds/<%= campground._id%>/comments/<%= comment._id %>/edit">
+                                        Edit
+                                    </a>
 
-                                <!-- delete form -->
-                                <form class="delete-form" action="/campgrounds/<%= campground._id%>/comments/<%= comment._id %>?_method=DELETE" method="post">
-                                    <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-                                </form>
+                                    <!-- delete form -->
+                                    <form class="delete-form" action="/campgrounds/<%= campground._id%>/comments/<%= comment._id %>?_method=DELETE" method="post">
+                                        <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                                    </form>
+                                </div>
+
                             <% } %>
 
 
