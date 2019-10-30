@@ -23,10 +23,12 @@ router.get("/register", function(req, res){
 
 // handle sign up logic
 router.post("/register", function(req, res){
+  if(req.body.registerCode === `${process.env.ADMIN_SECRET_CODE}` || req.body.registerCode === `${process.env.NEW_USER_CODE}`) {
     var newUser = new User({username: req.body.username});
-    if(req.body.adminCode === `${process.env.ADMIN_SECRET_CODE}`) {
+    if(req.body.registerCode === `${process.env.ADMIN_SECRET_CODE}`) {
         newUser.isAdmin = true;
     }
+
     User.register(newUser, req.body.password, function(err, user){
         if(err){
             console.log(err);
@@ -37,6 +39,12 @@ router.post("/register", function(req, res){
             res.redirect("/campgrounds");
         });
     });
+  }
+  else {
+    req.flash("error", "Incorrect invitation code! please send me an email!");
+    res.redirect("/register");
+  }
+
 });
 
 // show login form

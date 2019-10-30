@@ -1,11 +1,12 @@
 <% include ../partials/header %>
 
 <!-- partial container class in header -->
-    <div class="row">
-        <h1 style="text-align: center">Edit <%= campground.name %></h1>
+    <div class="row justify-content-center">
+          <div class="col-md-12 text-center">
+            <h1>Edit <%= campground.name %></h1>
+          </div>
 
-        <!-- make form centered with only 30% -->
-        <div style="width: 30%; margin: 25px auto;">
+           <div class="col-xs-12 col-md-6 col-lg-4">
             <!-- NOTE _method=PUT. this changes the post request into a put, via method-override package -->
             <form  action="/campgrounds/<%= campground._id %>/?_method=PUT" method="POST">
                 <!-- give each form some spacing by using form-group class -->

@@ -71,7 +71,7 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, 
 
 // COMMENT UPDATE - route
 router.put("/:comment_id", function(req,res){
-    Comment.findOneAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
        if(err){
            res.redirect("back");
        } else {

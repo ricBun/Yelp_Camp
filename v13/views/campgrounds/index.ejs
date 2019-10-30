@@ -1,49 +1,40 @@
 <% include ../partials/header %>
-
 <!-- partial container class in header -->
-    <header class="jumbotron">
+<header class="jumbotron">
 
-        <!-- add another container for spacing within the jumbotron -->
-        <!-- helps give space when resizing window -->
-        <div class="container">
-            <h1><span class="glyphicon glyphicon-tent"></span> Welcome To YelpCamp!</h1>
-            <p>View our hand-picked campgrounds from all over the world</p>
-            <!-- href placed inside paragraph to give a nice spacing -->
-            <p>
-                <!-- btn class from bootstrap to make button look nicer -->
-                <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add new Campground</a>
-            </p>
-        </div>
-
-    </header>
-
-    <!-- for the row class, adding style=display ... : flex... will make the grid adapt to the heights and lengths -->
+    <!-- add another container for spacing within the jumbotron -->
+    <!-- helps give space when resizing window -->
     <div class="container">
-        <div class="row text-center" style="display:flex; flex-wrap: wrap;">
-            <% campgroundsEJS.forEach(function(campground) {  %>
-                <!-- image gets bigger when screen size is larger -->
-                <!-- note value represents number of units the image takes up for each window size -->
-                <div class="col-md-3 col-sm-6 col-lg-2">
-                    <!-- bootstrap class that makes a grid item -->
-                    <!-- if thumbnail isn't used, pics will overlap -->
-                    <div class="thumbnail">
-                        <img src="<%= campground.image %>">
-                    </div>
-
-                    <div class="caption">
-                        <h4><%= campground.name %></h4>
-                    </div>
-
-                    <p>
-                        <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">More Info</a>
-                    </p>
-
-                </div>
-
-            <% }); %>
-        </div>
+        <h1><i class="fas fa-campground"></i> Welcome To YelpCamp!</h1>
+        <p>View our hand-picked campgrounds from all over the world!</p>
+        <!-- href placed inside paragraph to give a nice spacing -->
+        <p>
+            <!-- btn class from bootstrap to make button look nicer -->
+            <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add new Campground</a>
+        </p>
     </div>
 
+</header>
+
+<!-- for the row class, adding style=display ... : flex... will make the grid adapt to the heights and lengths -->
+ <div class="row text-center">
+     <% campgroundsEJS.forEach(function(campground) {  %>
+     <!-- image gets bigger when screen size is larger -->
+     <!-- note value represents number of units the image takes up for each window size -->
+     <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+         <!-- bootstrap class that makes a grid item -->
+         <!-- if card isn't used, pics will overlap -->
+         <div class="card">
+             <img class="card-img-top" src="<%= campground.image %>" alt="<%= campground.name %>">
+             <div class="card-body">
+                 <h5 class="card-title"><%= campground.name %></h5>
+                 <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">More Info</a>
+             </div>
+         </div>
+     </div>
+
+     <% }); %>
+ </div>
 
 
 
